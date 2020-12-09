@@ -8,6 +8,7 @@ import (
 
 	srv "api/gen/service"
 	"api/handler"
+	"api/repository"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -25,9 +26,17 @@ func main() {
 	}
 
 	server := grpc.NewServer()
+
+	// create repositories
+	userRepository := repository.NewInMemoryUserRepository()
+
 	srv.RegisterTodoServiceServer(
 		server,
 		handler.NewTodoHandler(),
+	)
+	srv.RegisterUserServiceServer(
+		server,
+		handler.NewUserHandler(userRepository),
 	)
 	reflection.Register(server)
 

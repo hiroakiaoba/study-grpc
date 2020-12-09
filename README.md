@@ -8,8 +8,8 @@ TODOリストサービスを作成する。
 
 - user
   - id
-  - name
-  - age
+  - login_name
+  - password
 - project
   - id
   - title
