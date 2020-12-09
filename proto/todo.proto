@@ -13,9 +13,10 @@ service TodoService {
 
 message Todo {
   enum Status {
-    WAITING = 0;
-    DOING = 1;
-    DONE = 2;
+    UNKNOWN = 0;
+    WAITING = 1;
+    DOING = 2;
+    DONE = 3;
   }
 
   int32 id = 1;

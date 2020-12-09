@@ -23,11 +23,20 @@ TODOリストサービスを作成する。
 
 ## コマンド
 
+protoからコード生成
+
 ```shell
 protoc \
   -Iproto \
   --go_out=plugins=grpc:api \ proto/*.proto
 ```
+
+grpcurl
+
+```shell
+grpcurl -plaintext localhost:50051 todoService.TodoService/GetAll
+```
+
 
 ## 参考
 

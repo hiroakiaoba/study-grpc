@@ -7,6 +7,9 @@ import (
 	"sync"
 	"time"
 
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
 	"github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -17,7 +20,6 @@ type todos struct {
 }
 
 func (t *todos) Create(content string) *srv.Todo {
-	t.mutex.Lock()
 	now := time.Now()
 	newTodo := &srv.Todo{
 		Id:      t.idCounter,
@@ -28,6 +30,7 @@ func (t *todos) Create(content string) *srv.Todo {
 			Nanos:   int32(now.Nanosecond()),
 		},
 	}
+	t.mutex.Lock()
 	t.idCounter++
 	t.mutex.Unlock()
 	return newTodo
@@ -45,11 +48,14 @@ type TodoHandler struct {
 }
 
 func NewTodoHandler() *TodoHandler {
+	initialTodos := &todos{
+		mutex:     sync.Mutex{},
+		data:      []*srv.Todo{},
+		idCounter: 1,
+	}
+	initialTodos.Add(initialTodos.Create("hogehog"))
 	return &TodoHandler{
-		todos: &todos{
-			mutex: sync.Mutex{},
-			data:  make([]*srv.Todo, 0),
-		},
+		todos: initialTodos,
 	}
 }
 
@@ -63,7 +69,14 @@ func (h *TodoHandler) GetAll(c context.Context, r *srv.GetAllRequest) (*srv.GetA
 
 func (h *TodoHandler) Add(c context.Context, r *srv.AddRequest) (*srv.AddResponse, error) {
 	log.Println("Received Add request!")
-	newTodo := h.todos.Create(r.Content)
+
+	// request data check
+	content := r.Content
+	if content == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "Todoの内容を送信してください")
+	}
+
+	newTodo := h.todos.Create(content)
 	h.todos.Add(newTodo)
 
 	return &srv.AddResponse{
