@@ -42,6 +42,10 @@ func main() {
 		server,
 		handler.NewUserHandler(userRepository, auth),
 	)
+	srv.RegisterProjectServiceServer(
+		server,
+		handler.NewProjectHandler(),
+	)
 	reflection.Register(server)
 
 	go func() {

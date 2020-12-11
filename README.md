@@ -14,6 +14,8 @@ TODOリストサービスを作成する。
   - id
   - title
   - users
+  - userId
+  - created_at
 - todo
   - id
   - content

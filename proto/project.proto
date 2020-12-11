@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package project;
+
+option go_package = "gen/service";
+
+import "google/protobuf/timestamp.proto";
+import "user.proto";
+
+// tokenの送信が必要
+service ProjectService {
+  rpc Create(ProjectCreateRequest) returns (ProjectCreateResponse) {}
+  // プロジェクトの削除。authorのみが削除できる
+  rpc Delete(ProjectDeleteRequest) returns (ProjectDeleteResponse) {}
+  // 自分が参加しているプロジェクト一覧を返す
+  rpc List(ProjectListRequest) returns (ProjectListResponse) {}
+  // ユーザーをプロジェクトに追加する。authorのみ可能
+  rpc Invite(ProjectInviteRequest) returns (ProjectInviteResponse) {}
+}
+
+message Project {
+  int32 id = 1;
+  string title = 2;
+  repeated user.User users = 3;
+  user.User author = 4;
+  google.protobuf.Timestamp created_at = 5;
+
+}
+
+message ProjectCreateRequest {
+  string token = 1;
+  string title = 2;
+}
+
+message ProjectCreateResponse {
+  Project project = 1;
+}
+
+message ProjectDeleteRequest {
+  string token = 1;
+  string id = 2;
+}
+
+message ProjectDeleteResponse {}
+
+message ProjectListRequest {
+  string token = 1;
+}
+
+message ProjectListResponse {
+  repeated Project projects = 1;
+}
+
+message ProjectInviteRequest {
+  string token = 1;
+  string projectId = 2;
+  string invited_user_login_name = 3;
+}
+
+message ProjectInviteResponse {}
