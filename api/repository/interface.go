@@ -8,3 +8,6 @@ type IUserRepository interface {
 	FindByLoginName(loginName string) (*model.User, error)
 	FindByID(id int32) (*model.User, error)
 }
+
+type IProjectRepository interface {
+}
