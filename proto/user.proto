@@ -6,7 +6,7 @@ option go_package = "gen/service";
 
 service UserService {
   rpc SignUp(SignUpRequest) returns (SignUpResponse) {}
-  rpc SingIn(SingInRequest) returns (SingInResponse) {}
+  rpc SignIn(SingInRequest) returns (SingInResponse) {}
   rpc List(ListRequest) returns (ListResponse) {}
 }
 

@@ -27,6 +27,17 @@ func (u *UserBox) FindByLoginName(loginName string) *model.User {
 	return user
 }
 
+func (u *UserBox) FindByID(id int32) *model.User {
+	u.Lock()
+	for _, user := range u.data {
+		if user.ID == id {
+			return user
+		}
+	}
+	u.Unlock()
+	return nil
+}
+
 func (u *UserBox) List() []*model.User {
 	u.Lock()
 	users := make([]*model.User, 0)
@@ -45,12 +56,12 @@ func NewInMemoryUserRepository() *InMemoryUserRepository {
 	mockUser1 := &model.User{
 		ID:        1,
 		LoginName: "PiyoUser",
-		Password:  "pasword",
+		Password:  "password",
 	}
 	mockUser2 := &model.User{
 		ID:        2,
 		LoginName: "HogeUser",
-		Password:  "pasword",
+		Password:  "password",
 	}
 	userData := make(map[string]*model.User)
 	userData[mockUser1.LoginName] = mockUser1
@@ -76,5 +87,10 @@ func (r *InMemoryUserRepository) List() ([]*model.User, error) {
 
 func (r *InMemoryUserRepository) FindByLoginName(loginName string) (*model.User, error) {
 	user := r.userBox.FindByLoginName(loginName)
+	return user, nil
+}
+
+func (r *InMemoryUserRepository) FindByID(id int32) (*model.User, error) {
+	user := r.userBox.FindByID(id)
 	return user, nil
 }

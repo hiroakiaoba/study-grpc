@@ -37,6 +37,14 @@ grpcurl
 grpcurl -plaintext localhost:50051 todoService.TodoService/GetAll
 ```
 
+```shell
+grpcurl -d '{"loginName":"hoge", "password":"password"}' -plaintext localhost:50051 todoService.TodoService/GetAll
+```
+
+```shell
+grpcurl -d '{"loginName":"hoge", "password":"password"}' -plaintext localhost:50051 user.UserService/SignUp
+```
+
 
 ## 参考
 

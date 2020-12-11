@@ -403,8 +403,8 @@ var file_user_proto_rawDesc = []byte{
 	0x63, 0x65, 0x12, 0x35, 0x0a, 0x06, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x12, 0x13, 0x2e, 0x75,
 	0x73, 0x65, 0x72, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
 	0x74, 0x1a, 0x14, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x35, 0x0a, 0x06, 0x53, 0x69, 0x6e,
-	0x67, 0x49, 0x6e, 0x12, 0x13, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x53, 0x69, 0x6e, 0x67, 0x49,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x35, 0x0a, 0x06, 0x53, 0x69, 0x67,
+	0x6e, 0x49, 0x6e, 0x12, 0x13, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x53, 0x69, 0x6e, 0x67, 0x49,
 	0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x14, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e,
 	0x53, 0x69, 0x6e, 0x67, 0x49, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
 	0x12, 0x2f, 0x0a, 0x04, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x11, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e,
@@ -439,10 +439,10 @@ var file_user_proto_goTypes = []interface{}{
 var file_user_proto_depIdxs = []int32{
 	4, // 0: user.ListResponse.users:type_name -> user.User
 	0, // 1: user.UserService.SignUp:input_type -> user.SignUpRequest
-	2, // 2: user.UserService.SingIn:input_type -> user.SingInRequest
+	2, // 2: user.UserService.SignIn:input_type -> user.SingInRequest
 	5, // 3: user.UserService.List:input_type -> user.ListRequest
 	1, // 4: user.UserService.SignUp:output_type -> user.SignUpResponse
-	3, // 5: user.UserService.SingIn:output_type -> user.SingInResponse
+	3, // 5: user.UserService.SignIn:output_type -> user.SingInResponse
 	6, // 6: user.UserService.List:output_type -> user.ListResponse
 	4, // [4:7] is the sub-list for method output_type
 	1, // [1:4] is the sub-list for method input_type
@@ -575,7 +575,7 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UserServiceClient interface {
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
-	SingIn(ctx context.Context, in *SingInRequest, opts ...grpc.CallOption) (*SingInResponse, error)
+	SignIn(ctx context.Context, in *SingInRequest, opts ...grpc.CallOption) (*SingInResponse, error)
 	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 }
 
@@ -596,9 +596,9 @@ func (c *userServiceClient) SignUp(ctx context.Context, in *SignUpRequest, opts 
 	return out, nil
 }
 
-func (c *userServiceClient) SingIn(ctx context.Context, in *SingInRequest, opts ...grpc.CallOption) (*SingInResponse, error) {
+func (c *userServiceClient) SignIn(ctx context.Context, in *SingInRequest, opts ...grpc.CallOption) (*SingInResponse, error) {
 	out := new(SingInResponse)
-	err := c.cc.Invoke(ctx, "/user.UserService/SingIn", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/user.UserService/SignIn", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -617,7 +617,7 @@ func (c *userServiceClient) List(ctx context.Context, in *ListRequest, opts ...g
 // UserServiceServer is the server API for UserService service.
 type UserServiceServer interface {
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
-	SingIn(context.Context, *SingInRequest) (*SingInResponse, error)
+	SignIn(context.Context, *SingInRequest) (*SingInResponse, error)
 	List(context.Context, *ListRequest) (*ListResponse, error)
 }
 
@@ -628,8 +628,8 @@ type UnimplementedUserServiceServer struct {
 func (*UnimplementedUserServiceServer) SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignUp not implemented")
 }
-func (*UnimplementedUserServiceServer) SingIn(context.Context, *SingInRequest) (*SingInResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SingIn not implemented")
+func (*UnimplementedUserServiceServer) SignIn(context.Context, *SingInRequest) (*SingInResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SignIn not implemented")
 }
 func (*UnimplementedUserServiceServer) List(context.Context, *ListRequest) (*ListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
@@ -657,20 +657,20 @@ func _UserService_SignUp_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_SingIn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserService_SignIn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SingInRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).SingIn(ctx, in)
+		return srv.(UserServiceServer).SignIn(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user.UserService/SingIn",
+		FullMethod: "/user.UserService/SignIn",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).SingIn(ctx, req.(*SingInRequest))
+		return srv.(UserServiceServer).SignIn(ctx, req.(*SingInRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -702,8 +702,8 @@ var _UserService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_SignUp_Handler,
 		},
 		{
-			MethodName: "SingIn",
-			Handler:    _UserService_SingIn_Handler,
+			MethodName: "SignIn",
+			Handler:    _UserService_SignIn_Handler,
 		},
 		{
 			MethodName: "List",
