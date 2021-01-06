@@ -109,6 +109,14 @@ func (h *UserHandler) List(c context.Context, r *srv.ListRequest) (*srv.ListResp
 	}, nil
 }
 
+// @see: https://pkg.go.dev/github.com/grpc-ecosystem/go-grpc-middleware@v1.2.2/auth?utm_source=gopls#ServiceAuthFuncOverride
+// 認証のMiddlewareを通したくないのでoverrideする
+func (h *UserHandler) AuthFuncOverride(ctx context.Context, fullMethodName string) (context.Context, error) {
+	log.Println("通ります！！")
+	log.Println("fulMethodName:", fullMethodName)
+	return ctx, nil
+}
+
 func SerializeUsers(users []*model.User) []*srv.User {
 	serializedUsers := make([]*srv.User, 0)
 	for _, u := range users {
