@@ -10,4 +10,5 @@ type IUserRepository interface {
 }
 
 type IProjectRepository interface {
+	Create(p *model.Project) error
 }
