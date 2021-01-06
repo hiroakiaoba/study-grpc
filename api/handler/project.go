@@ -3,6 +3,7 @@ package handler
 import (
 	srv "api/gen/service"
 	"context"
+	"fmt"
 )
 
 type ProjectHandler struct {
@@ -13,6 +14,7 @@ func NewProjectHandler() *ProjectHandler {
 }
 
 func (h *ProjectHandler) Create(c context.Context, r *srv.ProjectCreateRequest) (*srv.ProjectCreateResponse, error) {
+	fmt.Println("receivce project create request")
 	return nil, nil
 }
 

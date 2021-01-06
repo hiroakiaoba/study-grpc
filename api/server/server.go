@@ -8,9 +8,11 @@ import (
 
 	srv "api/gen/service"
 	"api/handler"
+	"api/middleware"
 	"api/repository"
 	"api/util"
 
+	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -26,13 +28,17 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	server := grpc.NewServer()
-
 	// create repositories
 	userRepository := repository.NewInMemoryUserRepository()
 
 	// create utilities
-	auth := util.NewJWTAuth()
+	authUtil := util.NewJWTAuth()
+
+	// create middlewares
+	authMid := middleware.NewAuthMiddleware(userRepository, authUtil)
+
+	authInterceptor := grpc.UnaryInterceptor(grpc_auth.UnaryServerInterceptor(authMid.Authenticate))
+	server := grpc.NewServer(authInterceptor)
 
 	srv.RegisterTodoServiceServer(
 		server,
@@ -40,7 +46,7 @@ func main() {
 	)
 	srv.RegisterUserServiceServer(
 		server,
-		handler.NewUserHandler(userRepository, auth),
+		handler.NewUserHandler(userRepository, authUtil),
 	)
 	srv.RegisterProjectServiceServer(
 		server,
