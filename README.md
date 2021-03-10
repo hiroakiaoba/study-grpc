@@ -47,6 +47,12 @@ grpcurl -d '{"loginName":"hoge", "password":"password"}' -plaintext localhost:50
 grpcurl -d '{"loginName":"hoge", "password":"password"}' -plaintext localhost:50051 user.UserService/SignUp
 ```
 
+認証ヘッダの送信
+
+```shell
+grpcurl -d '{"title":"Hogehoge"}' -H "Authorization: Bearer hogetokne" -plaintext localhost:50051 project.ProjectService/Create
+```
+
 
 ## 参考
 

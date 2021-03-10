@@ -28,8 +28,7 @@ message Project {
 }
 
 message ProjectCreateRequest {
-  string token = 1;
-  string title = 2;
+  string title = 1;
 }
 
 message ProjectCreateResponse {
@@ -37,24 +36,20 @@ message ProjectCreateResponse {
 }
 
 message ProjectDeleteRequest {
-  string token = 1;
-  string id = 2;
+  string id = 1;
 }
 
 message ProjectDeleteResponse {}
 
-message ProjectListRequest {
-  string token = 1;
-}
+message ProjectListRequest {}
 
 message ProjectListResponse {
   repeated Project projects = 1;
 }
 
 message ProjectInviteRequest {
-  string token = 1;
-  string projectId = 2;
-  string invited_user_login_name = 3;
+  string projectId = 1;
+  string invited_user_login_name = 2;
 }
 
 message ProjectInviteResponse {}
